@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE robot PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">
+
+<devices>
+    <device name="worldinterface_ros2" type="simulatedWorld_nws_ros2">
+        <param name="namespace">    ${portprefixnoslash}    </param>
+        <param name="node_name">    simulatedWorld_ros2_node    </param>
+        <action phase="startup" level="5" type="attach">
+            <param name="device"> worldInterfaceName </param>
+        </action>
+        <action phase="shutdown" level="5" type="detach" />
+    </device>
+</devices>

@@ -21,7 +21,7 @@
   <gazebo reference="dummy_link1">
     <sensor name="laser_sensor" type="gpu_lidar">
       <always_on>1</always_on>
-      <update_rate>40.000000</update_rate>
+      <update_rate>5.000000</update_rate>
       <pose>0 0 0.190 0 0 0 </pose>
       <ray>
         <scan>

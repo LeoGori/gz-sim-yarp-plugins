@@ -9,6 +9,7 @@
       <yarpRobotInterfaceConfigurationFile>model://worldinterface/worldinterface_yri.xml</yarpRobotInterfaceConfigurationFile>
       <yarpRobotInterfaceEnableTags>    (enable_ros2)   </yarpRobotInterfaceEnableTags>
       <yarpRobotInterfaceDisableTags>  </yarpRobotInterfaceDisableTags>
+      <yarpRobotInterfaceOverridePortPrefixWithModelName>  false </yarpRobotInterfaceOverridePortPrefixWithModelName>
     </plugin>
   </gazebo>
 
