@@ -4,6 +4,6 @@
 <robot name="lidarsensor" build="1" portprefix="/lidarsensor" xmlns:xi="http://www.w3.org/2001/XInclude">
     <devices>
         <xi:include href="./lidarsensor_nws_yarp.xml" />
-        <xi:include href="./lidarsensor_nws_ros2.xml" /> enabled_by="enable_ros2" disabled_by="disable_ros2" />
+        <xi:include href="./lidarsensor_nws_ros2.xml" enabled_by="enable_ros2" disabled_by="disable_ros2" />
     </devices>
 </robot>
