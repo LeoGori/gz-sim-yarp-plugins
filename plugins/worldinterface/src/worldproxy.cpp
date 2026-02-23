@@ -485,6 +485,73 @@ ReturnValue WorldProxy::makeModel(std::string id,  std::string filename, yarp::s
     return ReturnValue_ok;
 }
 
+ReturnValue WorldProxy::makeActor(std::string id,  std::string skin_filename, std::string anim_filename, yarp::sig::Pose6D pose)
+{
+    std::string service = "/world/default/create";
+    gz::msgs::EntityFactory req;
+
+    auto it = std::find (m_hobj.begin(), m_hobj.end(), id);
+    if(it != m_hobj.end()) {
+       yError() << "Object: " << id << " already exists, skipping";
+       return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    
+    string boxSDF_String=string(
+    "<?xml version='1.0'?>\
+    <sdf version ='1.4'>\
+        <actor name='MODELNAME'>\
+           <pose>POSEX POSEY POSEZ  ROLL PITCH YAW</pose>\
+           <skin>\
+              <filename>SKINFILE</filename>\
+               <scale>SCALE</scale>\
+           </skin>\
+           <animation name=\"animation\">\
+              <interpolate_x>false</interpolate_x>\
+              <interpolate_y>false</interpolate_y>\
+              <interpolate_z>false</interpolate_z>\
+              <filename>ANIMFILE</filename>\
+              <scale>SCALE</scale>\
+           </animation>\
+        </actor>\
+    </sdf>");
+
+    replace(boxSDF_String, "MODELNAME", id);
+    replace(boxSDF_String, "POSEX", pose.x);
+    replace(boxSDF_String, "POSEY", pose.y);
+    replace(boxSDF_String, "POSEZ", pose.z);
+    replace(boxSDF_String, "ROLL",  pose.roll);
+    replace(boxSDF_String, "PITCH", pose.pitch);
+    replace(boxSDF_String, "YAW",   pose.yaw);
+    replace(boxSDF_String, "SCALE",   1000.0);
+    replace(boxSDF_String, "SKINFILE",skin_filename);
+    replace(boxSDF_String, "ANIMFILE",anim_filename);
+    
+    // Set the sdf
+    yDebug() << boxSDF_String;
+    req.set_sdf(boxSDF_String);
+
+    // Reply
+    gz::msgs::Boolean rep;
+    bool result;
+
+    bool success = m_node->Request(service, req, m_timeout, rep, result);
+
+    if (success && result && rep.data())
+    {
+       yInfo() << "Object creatated:" << id;
+    }
+    else
+    {
+       yError() << "Unable to create object:" << id;
+       return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    
+    //update the list of handled objects
+    m_hobj.push_back(id);
+    
+    return ReturnValue_ok;
+}
+
 ReturnValue WorldProxy::deleteObject(std::string id)
 {
     std::string service = "/world/default/remove";
